@@ -28,9 +28,9 @@ spot_instance_types        = ["t3.micro", "t3a.micro"]
 desired_capacity_on_demand = "2"
 min_capacity_on_demand     = "2"
 max_capacity_on_demand     = "3"
-desired_capacity_spot      = "0"
-min_capacity_spot          = "0"
-max_capacity_spot          = "0"
+desired_capacity_spot      = "1"
+min_capacity_spot          = "1"
+max_capacity_spot          = "1"
 addons = [
   {
     name    = "vpc-cni",

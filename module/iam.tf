@@ -95,3 +95,77 @@ resource "aws_iam_role_policy_attachment" "eks-oidc-policy-attach" {
   role       = aws_iam_role.eks_oidc.name
   policy_arn = aws_iam_policy.eks-oidc-policy.arn
 }
+
+
+# Policy for Amazon S3 CSI Driver
+resource "aws_iam_policy" "s3_csi_driver_policy" {
+  name   = "AmazonS3CSIDriverPolicy"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect   = "Allow",
+        Action   = [
+          "s3:CreateBucket",
+          "s3:DeleteBucket",
+          "s3:ListBucket",
+          "s3:GetBucketLocation",
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:DeleteObject"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+# Policy for Amazon EFS CSI Driver
+resource "aws_iam_policy" "efs_csi_driver_policy" {
+  name   = "AmazonEFSCSIDriverPolicy"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect   = "Allow",
+        Action   = [
+          "elasticfilesystem:DescribeFileSystems",
+          "elasticfilesystem:CreateAccessPoint",
+          "elasticfilesystem:DeleteAccessPoint"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+##################
+##################
+resource "aws_iam_role_policy_attachment" "attach_s3_csi_driver" {
+  role       = aws_iam_role.eks_addons_role.name
+  policy_arn = aws_iam_policy.s3_csi_driver_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "attach_efs_csi_driver" {
+  role       = aws_iam_role.eks_addons_role.name
+  policy_arn = aws_iam_policy.efs_csi_driver_policy.arn
+}
+
+# Attach Amazon GuardDuty Policy
+resource "aws_iam_role_policy_attachment" "attach_guardduty_runtime_policy" {
+  role       = aws_iam_role.eks-nodegroup-role[0].name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonGuardDutyEKSRuntimeMonitoring"
+}
+
+# Attach Amazon CloudWatch Observability Policy
+resource "aws_iam_role_policy_attachment" "attach_cloudwatch_observability_policy" {
+  role       = aws_iam_role.eks-nodegroup-role[0].name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchObservabilityAccess"
+}
+
+# Attach AWS Network Flow Monitoring Agent Policy
+resource "aws_iam_role_policy_attachment" "attach_network_flow_monitoring_policy" {
+  role       = aws_iam_role.eks-nodegroup-role[0].name
+  policy_arn = "arn:aws:iam::aws:policy/AWSNetworkFlowMonitoring"
+}
+####################
+####################

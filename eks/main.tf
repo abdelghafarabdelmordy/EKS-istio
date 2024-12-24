@@ -32,9 +32,9 @@ module "eks" {
   desired_capacity_on_demand    = var.desired_capacity_on_demand
   min_capacity_on_demand        = var.min_capacity_on_demand
   max_capacity_on_demand        = var.max_capacity_on_demand
-  #desired_capacity_spot         = var.desired_capacity_spot
-  #min_capacity_spot             = var.min_capacity_spot
-  #max_capacity_spot             = var.max_capacity_spot
+  min_capacity_spot             = var.min_capacity_spot
+  desired_capacity_spot         = var.desired_capacity_spot
+  max_capacity_spot             = var.max_capacity_spot
   is-eks-cluster-enabled        = var.is-eks-cluster-enabled
   cluster-version               = var.cluster-version
   endpoint-private-access       = var.endpoint-private-access

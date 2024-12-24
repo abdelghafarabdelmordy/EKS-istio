@@ -140,6 +140,11 @@ resource "aws_iam_policy" "efs_csi_driver_policy" {
 }
 ##################
 ##################
+resource "aws_iam_role" "eks_addons_role" {
+  name               = "${local.cluster_name}-addons-role-${random_integer.random_suffix.result}"
+  assume_role_policy = data.aws_iam_policy_document.eks_oidc_assume_role_policy.json
+} 
+
 resource "aws_iam_role_policy_attachment" "attach_s3_csi_driver" {
   role       = aws_iam_role.eks_addons_role.name
   policy_arn = aws_iam_policy.s3_csi_driver_policy.arn

@@ -49,6 +49,6 @@ variable "spot_instance_types" {}
 variable "desired_capacity_on_demand" {}
 variable "min_capacity_on_demand" {}
 variable "max_capacity_on_demand" {}
-variable "desired_capacity_spot" {}
-variable "min_capacity_spot" {}
-variable "max_capacity_spot" {}
+#variable "desired_capacity_spot" {}
+#variable "min_capacity_spot" {}
+#variable "max_capacity_spot" {}

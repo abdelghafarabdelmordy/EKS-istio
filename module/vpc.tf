@@ -1,7 +1,7 @@
 locals {
   cluster-name = var.cluster-name
 }
-
+########### VPC #######
 resource "aws_vpc" "vpc" {
   cidr_block           = var.cidr-block
   instance_tenancy     = "default"
@@ -14,7 +14,7 @@ resource "aws_vpc" "vpc" {
 
   }
 }
-
+######## IGW #########
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id
 
@@ -26,7 +26,7 @@ resource "aws_internet_gateway" "igw" {
 
   depends_on = [aws_vpc.vpc]
 }
-
+####### Subnets ########
 resource "aws_subnet" "public-subnet" {
   count                   = var.pub-subnet-count
   vpc_id                  = aws_vpc.vpc.id
@@ -62,8 +62,7 @@ resource "aws_subnet" "private-subnet" {
   depends_on = [aws_vpc.vpc,
   ]
 }
-
-
+######## RT public #########
 resource "aws_route_table" "public-rt" {
   vpc_id = aws_vpc.vpc.id
 
@@ -90,7 +89,7 @@ resource "aws_route_table_association" "name" {
     aws_subnet.public-subnet
   ]
 }
-
+######### eip ########
 resource "aws_eip" "ngw-eip" {
   domain = "vpc"
 
@@ -102,7 +101,7 @@ resource "aws_eip" "ngw-eip" {
   ]
 
 }
-
+######## Nat GW #######
 resource "aws_nat_gateway" "ngw" {
   allocation_id = aws_eip.ngw-eip.id
   subnet_id     = aws_subnet.public-subnet[0].id
@@ -115,7 +114,7 @@ resource "aws_nat_gateway" "ngw" {
     aws_eip.ngw-eip
   ]
 }
-
+######## RT Private ######
 resource "aws_route_table" "private-rt" {
   vpc_id = aws_vpc.vpc.id
 
@@ -143,6 +142,7 @@ resource "aws_route_table_association" "private-rt-association" {
   ]
 }
 
+####### SG ###########
 resource "aws_security_group" "eks-cluster-sg" {
   name        = var.eks-sg
   description = "Allow 443 from Jump Server only"

@@ -40,10 +40,18 @@ variable "min_capacity_on_demand" {}
 variable "desired_capacity_on_demand" {}
 variable "max_capacity_on_demand" {}
 
-# variable "spot_instance_types" {}
-# variable "desired_capacity_spot" {}
-# variable "min_capacity_spot" {}
-# variable "max_capacity_spot" {}
+variable "spot_instance_types" {
+  default = []
+}
+variable "desired_capacity_spot" {
+  default = 0
+}
+variable "min_capacity_spot" {
+  default = 0
+}
+variable "max_capacity_spot" {
+  default = 0
+}
 
 variable "addons" {
   type = list(object({

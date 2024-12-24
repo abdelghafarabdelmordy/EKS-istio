@@ -41,7 +41,7 @@ jobs:
         
 
   CheckOut-Repo:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     environment: production
 
     defaults:
@@ -63,7 +63,7 @@ jobs:
       uses: actions/checkout@v4
 
   Setting-Up-Terraform:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     
     needs: CheckOut-Repo
 
@@ -75,7 +75,7 @@ jobs:
         terraform_version: 1.9.3
 
   Terraform-Initializing:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     needs: Setting-Up-Terraform
 
@@ -122,7 +122,7 @@ jobs:
       run: terraform validate
 
   Terraform-Action:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: Terraform-Formatting-Validating
     
     steps:

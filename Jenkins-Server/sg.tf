@@ -24,6 +24,6 @@ resource "aws_security_group" "jenkins_ec2_security" {
   }
 
   tags = {
-    Name = var.jenkins_sg_name
+    Name = var.jenkins-sg-name
   }
 }

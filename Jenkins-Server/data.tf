@@ -33,6 +33,6 @@ data "aws_subnets" "public_subnets" {
   }
   filter {
     name   = "vpc-id"
-    values = [aws_vpc.vpc.id] # Replace with your VPC ID reference
+    values = [data.aws_vpc.vpc.id] # Replace with your VPC ID reference
   }
 }

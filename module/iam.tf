@@ -141,20 +141,20 @@ resource "aws_iam_role_policy_attachment" "attach_efs_csi_driver" {
 # ==========================================================================================
 # Attach Managed Policies for Monitoring and Observability
 # ==========================================================================================
-resource "aws_iam_role_policy_attachment" "attach_guardduty_runtime_policy" {
-  role       = aws_iam_role.eks-nodegroup-role[0].name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonGuardDutyEKSRuntimeMonitoring"
-}
+# resource "aws_iam_role_policy_attachment" "attach_guardduty_runtime_policy" {
+#   role       = aws_iam_role.eks-nodegroup-role[0].name
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonGuardDutyEKSRuntimeMonitoring"
+# }
 
-resource "aws_iam_role_policy_attachment" "attach_cloudwatch_observability_policy" {
-  role       = aws_iam_role.eks-nodegroup-role[0].name
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchObservabilityAccess"
-}
+# resource "aws_iam_role_policy_attachment" "attach_cloudwatch_observability_policy" {
+#   role       = aws_iam_role.eks-nodegroup-role[0].name
+#   policy_arn = "arn:aws:iam::aws:policy/CloudWatchObservabilityAccess"
+# }
 
-resource "aws_iam_role_policy_attachment" "attach_network_flow_monitoring_policy" {
-  role       = aws_iam_role.eks-nodegroup-role[0].name
-  policy_arn = "arn:aws:iam::aws:policy/AWSNetworkFlowMonitoring"
-}
+# resource "aws_iam_role_policy_attachment" "attach_network_flow_monitoring_policy" {
+#   role       = aws_iam_role.eks-nodegroup-role[0].name
+#   policy_arn = "arn:aws:iam::aws:policy/AWSNetworkFlowMonitoring"
+# }
 
 # ==========================================================================================
 # OIDC Role and Policies

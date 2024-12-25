@@ -1,0 +1,68 @@
+pipeline {
+    agent any
+    environment {
+        AWS_REGION = 'eu-west-1'
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID') // Replace with Jenkins credential ID
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY') // Replace with Jenkins credential ID
+    }
+    parameters {
+        string(name: 'TFVARS_FILE', defaultValue: 'dev.tfvars', description: 'Path to the .tfvars file')
+        choice(name: 'ACTION', choices: ['plan', 'apply', 'destroy'], description: 'Terraform action to execute')
+    }
+    stages {
+        stage('Checkout Repository') {
+            steps {
+                checkout([$class: 'GitSCM',
+                    branches: [[name: '*/main']], // Replace with your branch
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [],
+                    submoduleCfg: [],
+                    userRemoteConfigs: [[url: 'git@github.com:abdelghafarabdelmordy/EKS-istio.git']] // Replace with your repo URL
+                ])
+            }
+        }
+        stage('Setup Terraform') {
+            steps {
+                script {
+                    sh '''
+                    curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+                    echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" > /etc/apt/sources.list.d/hashicorp.list
+                    apt update && apt install terraform=1.9.3 -y
+                    '''
+                }
+            }
+        }
+        stage('Initialize Terraform') {
+            steps {
+                dir('eks') {
+                    sh 'terraform init'
+                }
+            }
+        }
+        stage('Validate and Format Terraform') {
+            steps {
+                dir('eks') {
+                    sh '''
+                    terraform fmt
+                    terraform validate
+                    '''
+                }
+            }
+        }
+        stage('Terraform Action') {
+            steps {
+                dir('eks') {
+                    script {
+                        if (params.ACTION == 'plan') {
+                            sh "terraform plan -var-file=${params.TFVARS_FILE} -input=false"
+                        } else if (params.ACTION == 'apply') {
+                            sh "terraform apply -auto-approve -var-file=${params.TFVARS_FILE} -input=false"
+                        } else if (params.ACTION == 'destroy') {
+                            sh "terraform destroy -auto-approve -var-file=${params.TFVARS_FILE} -input=false"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

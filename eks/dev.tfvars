@@ -41,7 +41,7 @@ addons = [
       name    = "coredns"
       version = "v1.11.3-eksbuild.2"  # Replace with the latest compatible version
     },
-    {
+    # {
     #   name    = "kube-proxy"
     #   version = "v1.31.2-eksbuild.3"  # Replace with the latest compatible version
     # },

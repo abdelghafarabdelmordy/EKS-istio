@@ -1,5 +1,5 @@
 resource "aws_security_group" "jenkins_ec2_security" {
-  vpc_id      = aws_vpc.vpc.id
+  vpc_id      = data.aws_vpc.vpc.id
   description = "Allowing Jenkins, Sonarqube, SSH Access"
 
   ingress = [

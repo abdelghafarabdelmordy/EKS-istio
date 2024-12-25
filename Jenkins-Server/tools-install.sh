@@ -73,4 +73,8 @@ sudo apt install trivy -y
 
 # Intalling Helm
 #! /bin/bash
-#sudo snap install helm --classic
+sudo apt update 
+sudo apt install -y snapd
+sudo systemctl enable --now snapd
+sudo systemctl start snapd
+sudo snap install helm --classic

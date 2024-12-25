@@ -19,3 +19,14 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical's AWS account ID
 
 }
+data "aws_subnets" "public_subnets" {
+  filter {
+    name   = "tag:Name"
+    values = ["*subnet-public*"] # Replace with your specific naming convention
+  }
+
+  filter {
+    name   = "vpc-id"
+    values = [aws_vpc.vpc.id] # Replace with your VPC ID reference
+  }
+}

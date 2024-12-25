@@ -1,11 +1,9 @@
-locals {
-  first_public_subnet = aws_subnet.public-subnet[0].id 
-}
+
 resource "aws_instance" "ec2" {
   ami                    = data.aws_ami.ubuntu.image_id
   instance_type          = "t3.large"
   key_name               = var.key-name
-  subnet_id              = local.first_public_subnet
+  subnet_id              = data.aws_subnets.public_subnets.ids[0]
   vpc_security_group_ids = [aws_security_group.jenkins-EC2-security.id]
   iam_instance_profile   = aws_iam_instance_profile.jenkins-ec2-instance-profile.name
   root_block_device {

@@ -1,5 +1,4 @@
 name: 'TF-EKS-workflow'
-
 on:
   workflow_dispatch:
     inputs:
@@ -26,20 +25,6 @@ permissions:
   contents: read
 
 jobs:
-  
-    # name: 'Terraform'
-    # uses: actions/checkout@v4
-    # runs-on: ubuntu-latest
-    # environment: production
-
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
-    # defaults:
-    #   run:
-    #     shell: bash
-    #     working-directory: eks
-
-        
-
   CheckOut-Repo:
     runs-on: ubuntu-22.04
     environment: Dev

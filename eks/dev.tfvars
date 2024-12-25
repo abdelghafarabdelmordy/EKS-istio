@@ -41,10 +41,10 @@ addons = [
       name    = "coredns"
       version = "v1.11.3-eksbuild.2"  # Replace with the latest compatible version
     },
-    # {
-    #   name    = "kube-proxy"
-    #   version = "v1.31.2-eksbuild.3"  # Replace with the latest compatible version
-    # },
+    {
+      name    = "kube-proxy"
+      version = "v1.31.3-eksbuild.2"  # Replace with the latest compatible version
+    },
     {
       name    = "aws-ebs-csi-driver"
       version = "v1.37.0-eksbuild.1"  # Replace with the latest compatible version

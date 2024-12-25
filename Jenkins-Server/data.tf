@@ -30,3 +30,9 @@ data "aws_subnets" "public_subnets" {
     values = [aws_vpc.vpc.id] # Replace with your VPC ID reference
   }
 }
+data "aws_vpc" "vpc" {
+  filter {
+    name   = "tag:Name"
+    values = ["*vpc*"] # Replace with your VPC name or tag
+  }
+}
